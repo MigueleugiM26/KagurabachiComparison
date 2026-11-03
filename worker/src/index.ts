@@ -30,17 +30,21 @@ function cors(request: Request, env: Env) {
     "http://localhost:4173",
     env.ALLOWED_ORIGIN,
   ];
-  const origin = request.headers.get("Origin") ?? "";
-  const o = allowed.includes(origin) ? origin : env.ALLOWED_ORIGIN;
+  const rawOrigin = request.headers.get("Origin") ?? "";
+  const origin = rawOrigin.replace(/\/$/, "");
+  const isAllowed = allowed.some((a) => a.replace(/\/$/, "") === origin);
+
   return {
-    "Access-Control-Allow-Origin": o,
+    "Access-Control-Allow-Origin": isAllowed ? origin : env.ALLOWED_ORIGIN,
     "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, PUT, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    Vary: "Origin",
   };
 }
 
 async function handleRequest(request: Request, env: Env): Promise<Response> {
-  if (request.method === "OPTIONS") return new Response(null, { headers: cors(request, env) });
+  if (request.method === "OPTIONS")
+    return new Response(null, { headers: cors(request, env) });
 
   const url = new URL(request.url);
   const path = url.pathname;
@@ -71,7 +75,12 @@ async function handleRequest(request: Request, env: Env): Promise<Response> {
     const bucket = url.searchParams.get("bucket") ?? "";
     const filePath = url.searchParams.get("path") ?? "";
     if (bucket !== "compare-images") {
-      return addCors(Response.json({ error: "Only compare-images bucket is public" }, { status: 403 }));
+      return addCors(
+        Response.json(
+          { error: "Only compare-images bucket is public" },
+          { status: 403 },
+        ),
+      );
     }
     return addCors(await handleUpload(request, env, bucket, filePath));
   }
@@ -79,7 +88,10 @@ async function handleRequest(request: Request, env: Env): Promise<Response> {
   // Public posts listing
   if (path === "/api/posts" && request.method === "GET") {
     // Optional auth to check admin
-    const token = (request.headers.get("Authorization") ?? "").replace("Bearer ", "");
+    const token = (request.headers.get("Authorization") ?? "").replace(
+      "Bearer ",
+      "",
+    );
     const userId = token ? await validateSession(env.DB, token) : null;
     return addCors(await handleListPosts(request, env, userId));
   }
@@ -92,7 +104,10 @@ async function handleRequest(request: Request, env: Env): Promise<Response> {
 
   // Public post submission
   if (path === "/api/posts" && request.method === "POST") {
-    const token = (request.headers.get("Authorization") ?? "").replace("Bearer ", "");
+    const token = (request.headers.get("Authorization") ?? "").replace(
+      "Bearer ",
+      "",
+    );
     const userId = token ? await validateSession(env.DB, token) : null;
     return addCors(await handleCreatePost(request, env, userId));
   }
@@ -159,11 +174,16 @@ export default {
       return await handleRequest(request, env);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Internal server error";
+      const origin = request.headers.get("Origin") ?? "*";
       return new Response(JSON.stringify({ error: msg }), {
         status: 500,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": request.headers.get("Origin") ?? "*",
+          "Access-Control-Allow-Origin": origin,
+          "Access-Control-Allow-Methods":
+            "GET, POST, PATCH, DELETE, PUT, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          Vary: "Origin",
         },
       });
     }
