@@ -1,0 +1,280 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-base: #110e0e;
+  --bg-surface: #1a1616;
+  --bg-raised: #241f1f;
+  --bg-hover: #2e2727;
+  --border: #3d3434;
+  --border-subtle: #2e2727;
+
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+
+  --accent: #c62828;
+  --accent-dim: #4a1414;
+  --accent-hover: #e53935;
+
+  --danger: #f85149;
+  --danger-dim: #3d1c1c;
+  --success: #3fb950;
+  --warning: #d29922;
+
+  /* Tag colours */
+  --tag-character-bg: #4a1414;
+  --tag-character: #f48a8a;
+  --tag-scenery-bg: #1a3326;
+  --tag-scenery: #3fb950;
+  --tag-fight-bg: #2d2208;
+  --tag-fight: #d29922;
+  --tag-comedy-bg: #2d1f47;
+  --tag-comedy: #a371f7;
+  --tag-emotion-bg: #331a2c;
+  --tag-emotion: #e080b9;
+  --tag-dialogue-bg: #0d2133;
+  --tag-dialogue: #58a6ff;
+  --tag-action-bg: #1a2e1a;
+  --tag-action: #56d364;
+  --tag-architecture-bg: #1a2535;
+  --tag-architecture: #7eb8d4;
+  --tag-speedlines-bg: #0d1f2d;
+  --tag-speedlines: #79c0ff;
+  --tag-double-page-bg: #2d2510;
+  --tag-double-page: #e3b341;
+  --tag-flashback-bg: #2a1f0e;
+  --tag-flashback: #c9954a;
+  --tag-kamunabi-bg: #0d1e3a;
+  --tag-kamunabi: #5b9cf6;
+  --tag-hishaku-bg: #1f1040;
+  --tag-hishaku: #c084fc;
+  --tag-sazanami-bg: #0d2620;
+  --tag-sazanami: #3fdaa0;
+  --tag-mikaboshi-bg: #111118;
+  --tag-mikaboshi: #6e7280;
+  --tag-other-bg: #1e1e2e;
+  --tag-other: #a0a8c0;
+
+  --font-ui: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--accent-hover);
+}
+
+button {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 7px 14px;
+  font-weight: 500;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    opacity 0.15s;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input,
+select,
+textarea {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  background: var(--bg-base);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+}
+input::placeholder {
+  color: var(--text-muted);
+}
+select option {
+  background: var(--bg-surface);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ── Utilities ── */
+.btn-primary {
+  background: var(--accent);
+  color: #e6edf3;
+  font-weight: 600;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  color: #9a9da0;
+  font-weight: 600;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.btn-success {
+  background: #1a3326;
+  color: var(--success);
+  border: 1px solid transparent;
+}
+.btn-success:hover:not(:disabled) {
+  background: var(--success);
+  color: #000;
+}
+
+.btn-danger {
+  background: var(--danger-dim);
+  color: var(--danger);
+  border: 1px solid transparent;
+}
+.btn-danger:hover:not(:disabled) {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* ── Tags ── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  border: 1px solid currentColor;
+}
+.tag-character {
+  background: var(--tag-character-bg);
+  color: var(--tag-character);
+}
+.tag-scenery {
+  background: var(--tag-scenery-bg);
+  color: var(--tag-scenery);
+}
+.tag-fight {
+  background: var(--tag-fight-bg);
+  color: var(--tag-fight);
+}
+.tag-comedy {
+  background: var(--tag-comedy-bg);
+  color: var(--tag-comedy);
+}
+.tag-emotion {
+  background: var(--tag-emotion-bg);
+  color: var(--tag-emotion);
+}
+.tag-dialogue {
+  background: var(--tag-dialogue-bg);
+  color: var(--tag-dialogue);
+}
+.tag-action {
+  background: var(--tag-action-bg);
+  color: var(--tag-action);
+}
+.tag-architecture {
+  background: var(--tag-architecture-bg);
+  color: var(--tag-architecture);
+}
+.tag-speedlines {
+  background: var(--tag-speedlines-bg);
+  color: var(--tag-speedlines);
+}
+.tag-double-page {
+  background: var(--tag-double-page-bg);
+  color: var(--tag-double-page);
+}
+.tag-flashback {
+  background: var(--tag-flashback-bg);
+  color: var(--tag-flashback);
+}
+.tag-kamunabi {
+  background: var(--tag-kamunabi-bg);
+  color: var(--tag-kamunabi);
+}
+.tag-hishaku {
+  background: var(--tag-hishaku-bg);
+  color: var(--tag-hishaku);
+}
+.tag-sazanami {
+  background: var(--tag-sazanami-bg);
+  color: var(--tag-sazanami);
+}
+.tag-mikaboshi {
+  background: var(--tag-mikaboshi-bg);
+  color: var(--tag-mikaboshi);
+}
+.tag-other {
+  background: var(--tag-other-bg);
+  color: var(--tag-other);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

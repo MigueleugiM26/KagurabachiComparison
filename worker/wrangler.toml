@@ -1,0 +1,19 @@
+name = "kagurabachi-compare-worker"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "kagurabachi-compare-db"
+database_id = "df05a0ab-1e00-4c16-afbf-ff111ce35c44"
+
+[[r2_buckets]]
+binding = "R2_IMAGES"
+bucket_name = "compare-images"
+
+[[r2_buckets]]
+binding = "R2_AVATARS"
+bucket_name = "compare-avatars"
+
+[vars]
+ALLOWED_ORIGIN = "https://kagurabachi-comparison.vercel.app/"
