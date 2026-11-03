@@ -16,4 +16,4 @@ binding = "R2_AVATARS"
 bucket_name = "compare-avatars"
 
 [vars]
-ALLOWED_ORIGIN = "https://kagurabachi-comparison.vercel.app/"
+ALLOWED_ORIGIN = "https://kagurabachi-comparison.vercel.app"
